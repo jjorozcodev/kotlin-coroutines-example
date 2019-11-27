@@ -5,6 +5,7 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         btnClick.setOnClickListener{
             // IO, Main, Default
-            CoroutineScope(Default).launch {
+            CoroutineScope(IO).launch {
                 fakeApiRequest()
             }
         }
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun fakeApiRequest(){
         val resultVar = getFirstResult()
+        println("debug: ${resultVar}")
+        txtMsg.setText(resultVar)
     }
 
     private suspend fun getFirstResult() : String{
