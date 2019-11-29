@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     private val RESULT = "Method Result!"
+    private val OTHER_RESULT = "Other Method Result!"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +42,23 @@ class MainActivity : AppCompatActivity() {
     private suspend fun fakeApiRequest(){
         val resultVar = getFirstResult()
         println("debug: ${resultVar}")
-        //txtMsg.setText(resultVar)
         setTextOnMainThread(resultVar)
+
+        val OtherResult = getSecondResult()
+        println("debug: ${OtherResult}")
+        setTextOnMainThread(OtherResult)
     }
 
     private suspend fun getFirstResult() : String{
         logThread("getFirstResult")
         delay(1000)
         return RESULT
+    }
+
+    private suspend fun getSecondResult() : String{
+        logThread("getSecondResult")
+        delay(1500)
+        return OTHER_RESULT
     }
 
     private fun logThread(methodName: String){
