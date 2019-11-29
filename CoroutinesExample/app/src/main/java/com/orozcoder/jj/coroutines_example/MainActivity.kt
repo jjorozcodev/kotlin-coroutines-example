@@ -6,8 +6,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,10 +27,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setNewText(input: String){
+        val newText = txtMsg.text.toString() + "\n$input"
+        txtMsg.text = newText
+    }
+
+    private suspend fun setTextOnMainThread(input: String){
+        withContext(Main){
+            setNewText(input)
+        }
+    }
+
     private suspend fun fakeApiRequest(){
         val resultVar = getFirstResult()
         println("debug: ${resultVar}")
-        txtMsg.setText(resultVar)
+        //txtMsg.setText(resultVar)
+        setTextOnMainThread(resultVar)
     }
 
     private suspend fun getFirstResult() : String{
